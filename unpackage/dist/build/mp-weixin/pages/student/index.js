@@ -1,0 +1,1 @@
+"use strict";const e=require("../../common/vendor.js"),r=require("../../store/user.js"),s={__name:"index",setup(s){const n=r.useUserStore();return(r,s)=>({a:e.unref(n).userInfo.avatar,b:e.t(e.unref(n).userInfo.nickname),c:e.o((r=>e.unref(n).logout()))})}},n=e._export_sfc(s,[["__scopeId","data-v-e5531468"]]);wx.createPage(n);

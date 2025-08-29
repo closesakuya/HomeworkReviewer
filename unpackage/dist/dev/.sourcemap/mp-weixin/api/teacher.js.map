@@ -1,0 +1,1 @@
+{"version":3,"file":"teacher.js","sources":["api/teacher.js"],"sourcesContent":["const teacherService = uniCloud.importObject('teacher-service');\n\nexport const getMyStudentsApi = async () => {\n\treturn await teacherService.getMyStudents();\n}"],"names":["uniCloud"],"mappings":";;AAAA,MAAM,iBAAiBA,cAAQ,GAAC,aAAa,iBAAiB;AAElD,MAAC,mBAAmB,YAAY;AAC3C,SAAO,MAAM,eAAe;AAC7B;;"}

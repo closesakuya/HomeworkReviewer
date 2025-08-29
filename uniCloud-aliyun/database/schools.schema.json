@@ -1,0 +1,25 @@
+{
+	"bsonType": "object",
+	"required": ["name"],
+	"permission": {
+		"read": true,
+		"create": "'admin' in auth.role",
+		"update": "'admin' in auth.role",
+		"delete": "'admin' in auth.role"
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"name": {
+			"bsonType": "string",
+			"description": "学校名称",
+			"title": "学校名称"
+		},
+		"description": {
+			"bsonType": "string",
+			"description": "学校简介",
+			"title": "学校简介"
+		}
+	}
+}

@@ -1,0 +1,1 @@
+"use strict";const e=require("../common/vendor.js").tr.importObject("uni-id-co",{customUI:!0});exports.getUserInfoApi=async()=>await e.getAccountInfo(),exports.loginByWeixinApi=async t=>await e.loginByWeixin({code:t}),exports.updateUserApi=async t=>await e.updateUser(t);

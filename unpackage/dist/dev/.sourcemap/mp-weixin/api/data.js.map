@@ -1,0 +1,1 @@
+{"version":3,"file":"data.js","sources":["api/data.js"],"sourcesContent":["const dataService = uniCloud.importObject('data-service');\n\nexport const getSchoolsApi = async () => {\n\treturn await dataService.getSchools();\n}"],"names":["uniCloud"],"mappings":";;AAAA,MAAM,cAAcA,cAAQ,GAAC,aAAa,cAAc;AAE5C,MAAC,gBAAgB,YAAY;AACxC,SAAO,MAAM,YAAY;AAC1B;;"}

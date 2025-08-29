@@ -1,0 +1,1 @@
+<view class="container data-v-e5531468"><text class="title data-v-e5531468">欢迎来到学生中心</text><text class="data-v-e5531468">你的用户信息：</text><view class="user-info data-v-e5531468"><image class="avatar data-v-e5531468" src="{{a}}"></image><text class="data-v-e5531468">{{b}}</text></view><button class="data-v-e5531468" bindtap="{{c}}">退出登录</button></view>

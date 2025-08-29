@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "pages/login",
+    "pages/student/index",
+    "pages/teacher/index"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "作业评价",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "usingComponents": {}
+}

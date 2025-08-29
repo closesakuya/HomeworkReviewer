@@ -1,0 +1,11 @@
+
+.container.data-v-c78e6e6b { padding: 15px;
+}
+.header.data-v-c78e6e6b { display: flex; flex-direction: column; align-items: center; padding: 20px 0;
+}
+.avatar.data-v-c78e6e6b { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 10px;
+}
+.nickname.data-v-c78e6e6b { font-size: 18px; font-weight: bold; margin-bottom: 10px;
+}
+.logout-btn.data-v-c78e6e6b { margin-top: 30px; background-color: #f33; color: white;
+}

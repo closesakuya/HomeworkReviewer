@@ -1,0 +1,38 @@
+{
+    "collection": "users",
+    "name": "users",
+    "schema": {
+        "bsonType": "object",
+        "properties": {
+            "_id": {
+                "description": "ID，系统自动生成"
+            }
+        }
+    }
+}
+---
+{
+    "collection": "homework-submissions",
+    "name": "homework-submissions",
+    "schema": {
+        "bsonType": "object",
+        "properties": {
+            "_id": {
+                "description": "ID，系统自动生成"
+            }
+        }
+    }
+}
+---
+{
+    "collection": "evaluations",
+    "name": "evaluations",
+    "schema": {
+        "bsonType": "object",
+        "properties": {
+            "_id": {
+                "description": "ID，系统自动生成"
+            }
+        }
+    }
+}

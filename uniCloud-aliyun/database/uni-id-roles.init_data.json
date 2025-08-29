@@ -1,0 +1,40 @@
+[
+  {
+    "_id": "student_role",
+    "role_id": "student",
+    "role_name": "学生",
+    "permission": [
+      "SUBMIT_HOMEWORK",
+      "UPDATE_UNI_ID_USERS"
+    ]
+  },
+  {
+    "_id": "teacher_role",
+    "role_id": "teacher",
+    "role_name": "老师",
+    "permission": [
+      "EVALUATE_HOMEWORK",
+      "GET_SCHOOL_DATA",
+      "READ_USERS_DATA"
+    ]
+  },
+  {
+    "_id": "principal_role",
+    "role_id": "principal",
+    "role_name": "校长",
+    "permission": [
+      "ASSIGN_TEACHER",
+      "GET_SCHOOL_DATA",
+      "READ_USERS_DATA"
+    ]
+  },
+  {
+    "_id": "admin_role",
+    "role_id": "admin",
+    "role_name": "超级管理员",
+    "permission": [
+      "MANAGE_SCHOOL",
+      "READ_USERS_DATA"
+    ]
+  }
+]

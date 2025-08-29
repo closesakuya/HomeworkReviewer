@@ -1,0 +1,24 @@
+
+.container.data-v-9a6293cd { padding: 10px;
+}
+.content.data-v-9a6293cd { margin-top: 15px;
+}
+.section.data-v-9a6293cd { margin-top: 20px;
+}
+.section-title.data-v-9a6293cd { font-size: 16px; font-weight: bold; margin-bottom: 10px; display: block; padding-left: 5px;
+}
+.teacher-header.data-v-9a6293cd { color: #007aff; border-left: 3px solid #007aff;
+}
+.item.data-v-9a6293cd { display: flex; align-items: center; padding: 5px;
+}
+.student-item.data-v-9a6293cd { display: flex; justify-content: space-between; align-items: center; width: 100%;}
+.student-info.data-v-9a6293cd { display: flex; flex-direction: column;
+}
+.student-name.data-v-9a6293cd { font-size: 16px;
+}
+.teacher-info.data-v-9a6293cd { font-size: 12px; color: #999;
+}
+.tag-container.data-v-9a6293cd { display: flex; flex-wrap: wrap;
+}
+.no-student.data-v-9a6293cd { font-size: 14px; color: #999;
+}

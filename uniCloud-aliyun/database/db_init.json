@@ -1,0 +1,30 @@
+{
+  "uni-id-permissions": {
+    "data": [
+      { "_id": "update_user_info_permission", "permission_id": "UPDATE_UNI_ID_USERS", "permission_name": "更新用户信息" },
+      { "_id": "submit_homework_permission", "permission_id": "SUBMIT_HOMEWORK", "permission_name": "提交作业" },
+      { "_id": "evaluate_homework_permission", "permission_id": "EVALUATE_HOMEWORK", "permission_name": "评价作业" },
+      { "_id": "assign_teacher_permission", "permission_id": "ASSIGN_TEACHER", "permission_name": "分配老师" },
+      { "_id": "manage_school_permission", "permission_id": "MANAGE_SCHOOL", "permission_name": "学校管理" },
+      { "_id": "get_school_data_permission", "permission_id": "GET_SCHOOL_DATA", "permission_name": "获取学校数据" },
+	  { "_id": "read_users_data_permission", "permission_id": "READ_USERS_DATA", "permission_name": "读取用户数据" }
+    ]
+  },
+  "uni-id-roles": {
+    "data": [
+      { "_id": "student_role", "role_id": "student", "role_name": "学生", "permission": ["SUBMIT_HOMEWORK", "UPDATE_UNI_ID_USERS"] },
+      // 【修改】为老师也增加读取权限
+      { "_id": "teacher_role", "role_id": "teacher", "role_name": "老师", "permission": ["EVALUATE_HOMEWORK", "GET_SCHOOL_DATA", "READ_USERS_DATA"] },
+      // 【修改】为校长也增加读取权限
+      { "_id": "principal_role", "role_id": "principal", "role_name": "校长", "permission": ["ASSIGN_TEACHER", "GET_SCHOOL_DATA", "READ_USERS_DATA"] },
+      { "_id": "admin_role", "role_id": "admin", "role_name": "超级管理员", "permission": ["MANAGE_SCHOOL", "READ_USERS_DATA"] }
+    ]
+  },
+  "schools": {
+    "data": [
+      { "_id": "school_01", "name": "阳光第一实验小学" },
+      { "_id": "school_02", "name": "新星外国语学校" },
+      { "_id": "school_03", "name": "未来科技中学" }
+    ]
+  }
+}
