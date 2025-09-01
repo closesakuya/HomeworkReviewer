@@ -1,38 +1,53 @@
 <template>
 	<view class="container">
-		<view class="header">
-			<image class="avatar" :src="userStore.userInfo.avatar" mode="aspectFill"></image>
-			<text class="nickname">校长：{{ userStore.userInfo.nickname }}</text>
+		<view class="grid">
+			<view class="grid-item" @click="navigateTo('./manage-classes')">
+				<image class="icon" src="/static/icon-class.png"></image>
+				<text class="text">班级管理</text>
+			</view>
+			<view class="grid-item" @click="navigateTo('./manage-personnel')">
+				<image class="icon" src="/static/icon-personnel.png"></image>
+				<text class="text">人员管理</text>
+			</view>
 		</view>
-		
-		<uni-list>
-			<uni-list-item title="师生管理" note="为学生分配所属教师" showArrow clickable @click="goAssignPage"></uni-list-item>
-		</uni-list>
-		
-		<button class="logout-btn" @click="logout">退出登录</button>
 	</view>
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
-import { useUserStore } from '../../store/user.js'
-const userStore = useUserStore()
-
-onMounted(() => {
-	console.log('[Principal Page] onLoad: 页面加载，当前用户信息:', userStore.userInfo);
-});
-
-function goAssignPage() { uni.navigateTo({ url: '/pages/principal/assign' }); }
-function logout() {
-	userStore.logout();
-	uni.reLaunch({ url: '/pages/login' });
+function navigateTo(url) {
+	uni.navigateTo({ url });
 }
 </script>
 
 <style scoped>
-.container { padding: 15px; }
-.header { display: flex; flex-direction: column; align-items: center; padding: 20px 0; }
-.avatar { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 10px; }
-.nickname { font-size: 18px; font-weight: bold; }
-.logout-btn { margin-top: 30px; background-color: #f33; color: white; }
+.container {
+	padding: 40rpx;
+	background-color: #f8f8f8;
+	min-height: 100vh;
+}
+.grid {
+	display: flex;
+	gap: 30rpx;
+}
+.grid-item {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 40rpx;
+	background-color: #fff;
+	border-radius: 16rpx;
+	box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.05);
+	cursor: pointer;
+}
+.icon {
+	width: 80rpx;
+	height: 80rpx;
+	margin-bottom: 20rpx;
+}
+.text {
+	font-size: 28rpx;
+	color: #333;
+}
 </style>

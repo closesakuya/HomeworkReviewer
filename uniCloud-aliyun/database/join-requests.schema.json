@@ -1,0 +1,26 @@
+{
+	"bsonType": "object",
+	"required": ["student_id", "class_id", "school_ids", "status"],
+	"permission": {
+		"read": "auth.uid == doc.student_id || 'HANDLE_JOIN_REQUESTS' in auth.permission",
+		"create": "'APPLY_TO_JOIN_CLASS' in auth.permission",
+		"update": "'HANDLE_JOIN_REQUESTS' in auth.permission",
+		"delete": false
+	},
+	"properties": {
+		"_id": { "description": "ID，系统自动生成" },
+		"student_id": { "bsonType": "string", "description": "申请学生ID", "foreignKey": "uni-id-users._id" },
+		"class_id": { "bsonType": "string", "description": "申请班级ID", "foreignKey": "classes._id" },
+		"school_ids": { "bsonType": "string", "description": "学校ID", "foreignKey": "schools._id" },
+		"status": {
+			"bsonType": "string",
+			"description": "申请状态 (pending, approved, rejected)",
+			"defaultValue": "pending"
+		},
+		"request_date": {
+			"bsonType": "timestamp",
+			"description": "申请时间",
+			"forceDefaultValue": { "$env": "now" }
+		}
+	}
+}

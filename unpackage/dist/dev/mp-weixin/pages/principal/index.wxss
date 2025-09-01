@@ -1,11 +1,31 @@
 
-.container.data-v-2e5f86bb { padding: 15px;
+.container.data-v-2e5f86bb {
+	padding: 40rpx;
+	background-color: #f8f8f8;
+	min-height: 100vh;
 }
-.header.data-v-2e5f86bb { display: flex; flex-direction: column; align-items: center; padding: 20px 0;
+.grid.data-v-2e5f86bb {
+	display: flex;
+	gap: 30rpx;
 }
-.avatar.data-v-2e5f86bb { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 10px;
+.grid-item.data-v-2e5f86bb {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 40rpx;
+	background-color: #fff;
+	border-radius: 16rpx;
+	box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.05);
+	cursor: pointer;
 }
-.nickname.data-v-2e5f86bb { font-size: 18px; font-weight: bold;
+.icon.data-v-2e5f86bb {
+	width: 80rpx;
+	height: 80rpx;
+	margin-bottom: 20rpx;
 }
-.logout-btn.data-v-2e5f86bb { margin-top: 30px; background-color: #f33; color: white;
+.text.data-v-2e5f86bb {
+	font-size: 28rpx;
+	color: #333;
 }

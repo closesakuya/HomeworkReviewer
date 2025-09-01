@@ -6,6 +6,10 @@
 			<uni-tag text="学生" type="primary" :inverted="true" />
 		</view>
 		<uni-list>
+			<!-- 新增入口 -->
+			<uni-list-item title="修改资料" showArrow clickable @click="goProfile"></uni-list-item>
+			<uni-list-item title="我的班级" showArrow clickable @click="goMyClasses"></uni-list-item>
+			<uni-list-item title="加入班级" showArrow clickable @click="goJoinClass"></uni-list-item>
 			<uni-list-item title="提交作业" showArrow clickable @click="goSubmitPage"></uni-list-item>
 			<uni-list-item title="我的作业" showArrow clickable @click="goMyHomeworkPage"></uni-list-item>
 		</uni-list>
@@ -14,14 +18,15 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
 import { useUserStore } from '../../store/user.js';
 const userStore = useUserStore();
 
-onMounted(() => {
-	console.log('[Student Page] onLoad: 页面加载，当前用户信息:', userStore.userInfo);
-});
-
+// 新增跳转函数
+function goProfile() {
+	uni.navigateTo({ url: '/pages/common/user-profile/index' });
+}
+function goMyClasses() { uni.navigateTo({ url: '/pages/student/my-classes' }); }
+function goJoinClass() { uni.navigateTo({ url: '/pages/student/join-class' }); }
 function goSubmitPage() { uni.showToast({title: '功能待开发', icon: 'none'}); }
 function goMyHomeworkPage() { uni.showToast({title: '功能待开发', icon: 'none'}); }
 function logout() {

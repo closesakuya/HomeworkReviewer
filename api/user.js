@@ -26,7 +26,7 @@ export const getUserInfoApi = async () => {
 
 	// 【核心修正】将 .field() 的参数从对象改为用逗号分隔的字符串，避免别名冲突
 	const userRes = await db.collection('uni-id-users').doc(uid).field(
-		'nickname, avatar, role, school_id'
+		'nickname, avatar, role, school_ids'
 	).get();
 
 	if (userRes.result.data && userRes.result.data.length > 0) {
@@ -43,7 +43,7 @@ export const getUserInfoApi = async () => {
 
 /**
  * 使用 clientDB 更新当前用户信息
- * @param {object} params - 需要更新的字段，如 { nickname, avatar, school_id }
+ * @param {object} params - 需要更新的字段，如 { nickname, avatar, school_ids }
  * @returns {Promise<object>}
  */
 export const updateUserApi = async (params) => {

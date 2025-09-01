@@ -5,7 +5,10 @@
 			<text class="nickname">教师：{{ userStore.userInfo.nickname }}</text>
 		</view>
 		<uni-list>
-			<uni-list-item title="我的学生" note="查看已分配给我的学生" showArrow clickable @click="goMyStudentsPage"></uni-list-item>
+			<!-- 新增入口 -->
+			<uni-list-item title="修改资料" showArrow clickable @click="goProfile"></uni-list-item>
+			<uni-list-item title="我的班级管理" note="管理班级内的学生" showArrow clickable @click="goManageMyClasses"></uni-list-item>
+			<uni-list-item title="学生申请处理" note="处理学生的入班申请" showArrow clickable @click="goHandleRequests"></uni-list-item>
 			<uni-list-item title="评价作业" note="评价学生提交的作业" showArrow clickable @click="goEvaluatePage"></uni-list-item>
 		</uni-list>
 		<button class="logout-btn" @click="logout">退出登录</button>
@@ -13,15 +16,15 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
 import { useUserStore } from '../../store/user.js'
 const userStore = useUserStore()
 
-onMounted(() => {
-	console.log('[Teacher Page] onLoad: 页面加载，当前用户信息:', userStore.userInfo);
-});
-
-function goMyStudentsPage() { uni.navigateTo({ url: '/pages/teacher/my-students' }); }
+// 新增跳转函数
+function goProfile() {
+	uni.navigateTo({ url: '/pages/common/user-profile/index' });
+}
+function goManageMyClasses() { uni.navigateTo({ url: '/pages/teacher/manage-my-classes' }); }
+function goHandleRequests() { uni.navigateTo({ url: '/pages/teacher/handle-requests' }); }
 function goEvaluatePage() { uni.showToast({title: '功能待开发', icon: 'none'}); }
 function logout() {
 	userStore.logout();

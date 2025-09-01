@@ -111,7 +111,7 @@ async function handleGetUserProfile() {
 		const updateData = {
 			nickname: userInfo.nickName,
 			avatar: userInfo.avatarUrl,
-			school_id: selectedSchoolId
+			school_ids: selectedSchoolId
 		};
 		console.log('[Login Page] handleGetUserProfile: 步骤 2/3 - 调用 updateUserApi() 更新数据库，参数:', updateData);
 		await updateUserApi(updateData);
@@ -135,7 +135,10 @@ async function handleGetUserProfile() {
 function redirectUser(roles = []) {
 	console.log('[Login Page] redirectUser: 准备跳转，接收到的角色列表:', roles);
 	uni.showToast({ title: '登录成功', icon: 'success' });
-	if (roles && roles.includes('principal')) {
+	if (roles && roles.includes('admin')) {
+		console.log('[Login Page] redirectUser: 检测到管理员角色，跳转到管理中心');
+		uni.reLaunch({ url: '/pages/admin/index' });
+	} else if (roles && roles.includes('principal')) {
 		console.log('[Login Page] redirectUser: 检测到校长角色，跳转到校长中心');
 		uni.reLaunch({ url: '/pages/principal/index' });
 	} else if (roles && roles.includes('teacher')) {

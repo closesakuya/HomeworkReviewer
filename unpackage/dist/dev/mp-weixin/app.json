@@ -1,11 +1,17 @@
 {
   "pages": [
     "pages/login",
+    "pages/common/user-profile/index",
     "pages/student/index",
+    "pages/student/join-class",
+    "pages/student/my-classes",
     "pages/teacher/index",
-    "pages/teacher/my-students",
+    "pages/teacher/manage-my-classes",
+    "pages/teacher/handle-requests",
     "pages/principal/index",
-    "pages/principal/assign"
+    "pages/principal/manage-classes",
+    "pages/principal/manage-personnel",
+    "pages/admin/index"
   ],
   "window": {
     "navigationBarTextStyle": "black",

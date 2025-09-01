@@ -78,7 +78,7 @@ const _sfc_main = {
         const updateData = {
           nickname: userInfo.nickName,
           avatar: userInfo.avatarUrl,
-          school_id: selectedSchoolId
+          school_ids: selectedSchoolId
         };
         common_vendor.index.__f__("log", "at pages/login.vue:116", "[Login Page] handleGetUserProfile: 步骤 2/3 - 调用 updateUserApi() 更新数据库，参数:", updateData);
         await api_user.updateUserApi(updateData);
@@ -97,20 +97,23 @@ const _sfc_main = {
     function redirectUser(roles = []) {
       common_vendor.index.__f__("log", "at pages/login.vue:136", "[Login Page] redirectUser: 准备跳转，接收到的角色列表:", roles);
       common_vendor.index.showToast({ title: "登录成功", icon: "success" });
-      if (roles && roles.includes("principal")) {
-        common_vendor.index.__f__("log", "at pages/login.vue:139", "[Login Page] redirectUser: 检测到校长角色，跳转到校长中心");
+      if (roles && roles.includes("admin")) {
+        common_vendor.index.__f__("log", "at pages/login.vue:139", "[Login Page] redirectUser: 检测到管理员角色，跳转到管理中心");
+        common_vendor.index.reLaunch({ url: "/pages/admin/index" });
+      } else if (roles && roles.includes("principal")) {
+        common_vendor.index.__f__("log", "at pages/login.vue:142", "[Login Page] redirectUser: 检测到校长角色，跳转到校长中心");
         common_vendor.index.reLaunch({ url: "/pages/principal/index" });
       } else if (roles && roles.includes("teacher")) {
-        common_vendor.index.__f__("log", "at pages/login.vue:142", "[Login Page] redirectUser: 检测到教师角色，跳转到教师中心");
+        common_vendor.index.__f__("log", "at pages/login.vue:145", "[Login Page] redirectUser: 检测到教师角色，跳转到教师中心");
         common_vendor.index.reLaunch({ url: "/pages/teacher/index" });
       } else {
-        common_vendor.index.__f__("log", "at pages/login.vue:145", "[Login Page] redirectUser: 未检测到特殊角色，跳转到学生中心");
+        common_vendor.index.__f__("log", "at pages/login.vue:148", "[Login Page] redirectUser: 未检测到特殊角色，跳转到学生中心");
         common_vendor.index.reLaunch({ url: "/pages/student/index" });
       }
     }
     function handleError(error, title) {
       common_vendor.index.hideLoading();
-      common_vendor.index.__f__("error", "at pages/login.vue:153", `[${title}]`, error);
+      common_vendor.index.__f__("error", "at pages/login.vue:156", `[${title}]`, error);
       common_vendor.index.showModal({ title, content: error.message || "请稍后再试", showCancel: false });
     }
     return (_ctx, _cache) => {

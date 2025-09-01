@@ -1,0 +1,17 @@
+{
+	"bsonType": "object",
+	"required": ["name", "school_ids"],
+	"permission": {
+		"read": "auth.uid != null",
+		"create": "'MANAGE_CLASSES' in auth.permission",
+		"update": "'MANAGE_CLASSES' in auth.permission || 'MANAGE_CLASS_MEMBERS' in auth.permission",
+		"delete": "'MANAGE_CLASSES' in auth.permission"
+	},
+	"properties": {
+		"_id": { "description": "ID，系统自动生成" },
+		"name": { "bsonType": "string", "description": "班级名称" },
+		"school_ids": { "bsonType": "string", "description": "所属学校ID", "foreignKey": "schools._id" },
+		"teacher_ids": { "bsonType": "array", "description": "班级下的老师ID列表", "foreignKey": "uni-id-users._id" },
+		"student_ids": { "bsonType": "array", "description": "班级下的学生ID列表", "foreignKey": "uni-id-users._id" }
+	}
+}

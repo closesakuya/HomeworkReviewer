@@ -16,9 +16,15 @@ const _sfc_main = {
   __name: "index",
   setup(__props) {
     const userStore = store_user.useUserStore();
-    common_vendor.onMounted(() => {
-      common_vendor.index.__f__("log", "at pages/student/index.vue:22", "[Student Page] onLoad: 页面加载，当前用户信息:", userStore.userInfo);
-    });
+    function goProfile() {
+      common_vendor.index.navigateTo({ url: "/pages/common/user-profile/index" });
+    }
+    function goMyClasses() {
+      common_vendor.index.navigateTo({ url: "/pages/student/my-classes" });
+    }
+    function goJoinClass() {
+      common_vendor.index.navigateTo({ url: "/pages/student/join-class" });
+    }
     function goSubmitPage() {
       common_vendor.index.showToast({ title: "功能待开发", icon: "none" });
     }
@@ -38,19 +44,37 @@ const _sfc_main = {
           type: "primary",
           inverted: true
         }),
-        d: common_vendor.o(goSubmitPage),
+        d: common_vendor.o(goProfile),
         e: common_vendor.p({
+          title: "修改资料",
+          showArrow: true,
+          clickable: true
+        }),
+        f: common_vendor.o(goMyClasses),
+        g: common_vendor.p({
+          title: "我的班级",
+          showArrow: true,
+          clickable: true
+        }),
+        h: common_vendor.o(goJoinClass),
+        i: common_vendor.p({
+          title: "加入班级",
+          showArrow: true,
+          clickable: true
+        }),
+        j: common_vendor.o(goSubmitPage),
+        k: common_vendor.p({
           title: "提交作业",
           showArrow: true,
           clickable: true
         }),
-        f: common_vendor.o(goMyHomeworkPage),
-        g: common_vendor.p({
+        l: common_vendor.o(goMyHomeworkPage),
+        m: common_vendor.p({
           title: "我的作业",
           showArrow: true,
           clickable: true
         }),
-        h: common_vendor.o(logout)
+        n: common_vendor.o(logout)
       };
     };
   }

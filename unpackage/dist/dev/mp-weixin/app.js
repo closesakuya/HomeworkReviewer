@@ -4,11 +4,17 @@ const common_vendor = require("./common/vendor.js");
 const uni_modules_uniIdPages_init = require("./uni_modules/uni-id-pages/init.js");
 if (!Math) {
   "./pages/login.js";
+  "./pages/common/user-profile/index.js";
   "./pages/student/index.js";
+  "./pages/student/join-class.js";
+  "./pages/student/my-classes.js";
   "./pages/teacher/index.js";
-  "./pages/teacher/my-students.js";
+  "./pages/teacher/manage-my-classes.js";
+  "./pages/teacher/handle-requests.js";
   "./pages/principal/index.js";
-  "./pages/principal/assign.js";
+  "./pages/principal/manage-classes.js";
+  "./pages/principal/manage-personnel.js";
+  "./pages/admin/index.js";
 }
 const _sfc_main = {
   onLaunch: async function() {

@@ -1,22 +1,39 @@
 {
 	"pages": [{
-		"path": "pages/login",
-		"style": { "navigationBarTitleText": "登录" }
-	}, {
-		"path": "pages/student/index",
-		"style": { "navigationBarTitleText": "学生中心" }
-	}, {
-		"path": "pages/teacher/index",
-		"style": { "navigationBarTitleText": "教师中心" }
-	}, {
-		"path": "pages/teacher/my-students",
-		"style": { "navigationBarTitleText": "我的学生" }
-	}, {
-		"path": "pages/principal/index",
-		"style": { "navigationBarTitleText": "校长中心" }
-	}, {
-		"path": "pages/principal/assign",
-		"style": { "navigationBarTitleText": "师生管理" }
+		"path": "pages/login", "style": { "navigationBarTitleText": "登录" }
+	}, 
+	{
+		"path": "pages/common/user-profile/index", "style": { "navigationBarTitleText": "修改资料" }
+	}, 
+	{
+		"path": "pages/student/index", "style": { "navigationBarTitleText": "学生中心" }
+	}, 
+	{
+		"path": "pages/student/join-class", "style": { "navigationBarTitleText": "加入班级" }
+	}, 
+	{
+		"path": "pages/student/my-classes", "style": { "navigationBarTitleText": "我的班级" }
+	}, 
+	{
+		"path": "pages/teacher/index", "style": { "navigationBarTitleText": "教师中心" }
+	}, 
+	{
+		"path": "pages/teacher/manage-my-classes", "style": { "navigationBarTitleText": "班级管理" }
+	},
+	{
+		"path": "pages/teacher/handle-requests", "style": { "navigationBarTitleText": "申请处理" }
+	}, 
+	{
+		"path": "pages/principal/index", "style": { "navigationBarTitleText": "校长中心" }
+	}, 
+	{
+		"path": "pages/principal/manage-classes", "style": { "navigationBarTitleText": "班级管理" }
+	}, 
+	{
+		"path": "pages/principal/manage-personnel", "style": { "navigationBarTitleText": "人员管理" }
+	}, 
+	{
+		"path": "pages/admin/index", "style": { "navigationBarTitleText": "后台管理" }
 	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

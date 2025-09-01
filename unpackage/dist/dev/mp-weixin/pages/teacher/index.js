@@ -15,11 +15,14 @@ const _sfc_main = {
   __name: "index",
   setup(__props) {
     const userStore = store_user.useUserStore();
-    common_vendor.onMounted(() => {
-      common_vendor.index.__f__("log", "at pages/teacher/index.vue:21", "[Teacher Page] onLoad: 页面加载，当前用户信息:", userStore.userInfo);
-    });
-    function goMyStudentsPage() {
-      common_vendor.index.navigateTo({ url: "/pages/teacher/my-students" });
+    function goProfile() {
+      common_vendor.index.navigateTo({ url: "/pages/common/user-profile/index" });
+    }
+    function goManageMyClasses() {
+      common_vendor.index.navigateTo({ url: "/pages/teacher/manage-my-classes" });
+    }
+    function goHandleRequests() {
+      common_vendor.index.navigateTo({ url: "/pages/teacher/handle-requests" });
     }
     function goEvaluatePage() {
       common_vendor.index.showToast({ title: "功能待开发", icon: "none" });
@@ -32,21 +35,34 @@ const _sfc_main = {
       return {
         a: common_vendor.unref(userStore).userInfo.avatar,
         b: common_vendor.t(common_vendor.unref(userStore).userInfo.nickname),
-        c: common_vendor.o(goMyStudentsPage),
+        c: common_vendor.o(goProfile),
         d: common_vendor.p({
-          title: "我的学生",
-          note: "查看已分配给我的学生",
+          title: "修改资料",
           showArrow: true,
           clickable: true
         }),
-        e: common_vendor.o(goEvaluatePage),
+        e: common_vendor.o(goManageMyClasses),
         f: common_vendor.p({
+          title: "我的班级管理",
+          note: "管理班级内的学生",
+          showArrow: true,
+          clickable: true
+        }),
+        g: common_vendor.o(goHandleRequests),
+        h: common_vendor.p({
+          title: "学生申请处理",
+          note: "处理学生的入班申请",
+          showArrow: true,
+          clickable: true
+        }),
+        i: common_vendor.o(goEvaluatePage),
+        j: common_vendor.p({
           title: "评价作业",
           note: "评价学生提交的作业",
           showArrow: true,
           clickable: true
         }),
-        g: common_vendor.o(logout)
+        k: common_vendor.o(logout)
       };
     };
   }

@@ -11,7 +11,7 @@ const getUserInfoApi = async () => {
     return { errCode: "uni-id-token-expired", errMsg: "登录状态无效" };
   }
   const userRes = await db.collection("uni-id-users").doc(uid).field(
-    "nickname, avatar, role, school_id"
+    "nickname, avatar, role, school_ids"
   ).get();
   if (userRes.result.data && userRes.result.data.length > 0) {
     const userInfo = userRes.result.data[0];

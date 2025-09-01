@@ -3,7 +3,7 @@
 	"permission": {
 		"read": "auth.uid != null && ('READ_USERS_DATA' in auth.permission || doc._id == auth.uid)",
 		"create": "'CREATE_UNI_ID_USERS' in auth.permission",
-		"update": "doc._id == auth.uid || 'UPDATE_UNI_ID_USERS' in auth.permission",
+		"update": "doc._id == auth.uid || 'UPDATE_UNI_ID_USERS' in auth.permission || 'ASSIGN_TEACHER' in auth.permission || 'MANAGE_ROLES' in auth.permission || 'MANAGE_USERS_GLOBAL' in auth.permission",
 		"delete": "'DELETE_UNI_ID_USERS' in auth.permission"
 	},
 	"properties": {
@@ -326,11 +326,11 @@
 			"foreignKey": "uni-id-roles.role_id",
 			"permission": {
 				"read": "'READ_USERS_DATA' in auth.permission || doc._id == auth.uid",
-				"write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
+				"write": "'MANAGE_ROLES' in auth.permission || 'MANAGE_USERS_GLOBAL' in auth.permission"
 			},
 			"title": "角色"
 		},
-		"school_id": {
+		"school_ids": {
 			"bsonType": "string",
 			"description": "所属学校ID",
 			"foreignKey": "schools._id",
@@ -338,6 +338,11 @@
 				"read": true,
 				"write": "doc._id == auth.uid"
 			}
+		},
+		"class_ids": { 
+			"bsonType": "array", 
+			"description": "所属班级ID列表", 
+			"foreignKey": "classes._id" 
 		},
 		"teacher_ids": {
 			"bsonType": "array",

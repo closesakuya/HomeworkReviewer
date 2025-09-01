@@ -5,31 +5,53 @@
     "permission_name": "更新用户信息"
   },
   {
-    "_id": "submit_homework_permission",
-    "permission_id": "SUBMIT_HOMEWORK",
-    "permission_name": "提交作业"
-  },
-  {
-    "_id": "evaluate_homework_permission",
-    "permission_id": "EVALUATE_HOMEWORK",
-    "permission_name": "评价作业"
-  },
-  {
     "_id": "assign_teacher_permission",
     "permission_id": "ASSIGN_TEACHER",
     "permission_name": "分配老师"
-  },
-  {
-    "_id": "manage_school_permission",
-    "permission_id": "MANAGE_SCHOOL",
-    "permission_name": "学校管理"
   },
   {
     "_id": "get_school_data_permission",
     "permission_id": "GET_SCHOOL_DATA",
     "permission_name": "获取学校数据"
   },
-	{ "_id": "read_users_data_permission", 
-	"permission_id": "READ_USERS_DATA", 
-	"permission_name": "读取用户数据" }
+  {
+    "_id": "read_users_data_permission",
+    "permission_id": "READ_USERS_DATA",
+    "permission_name": "读取用户数据"
+  },
+  {
+    "_id": "manage_classes_permission",
+    "permission_id": "MANAGE_CLASSES",
+    "permission_name": "管理班级"
+  },
+  {
+    "_id": "manage_class_members_permission",
+    "permission_id": "MANAGE_CLASS_MEMBERS",
+    "permission_name": "管理班级成员"
+  },
+  {
+    "_id": "handle_join_requests_permission",
+    "permission_id": "HANDLE_JOIN_REQUESTS",
+    "permission_name": "处理加群申请"
+  },
+  {
+    "_id": "apply_to_join_class_permission",
+    "permission_id": "APPLY_TO_JOIN_CLASS",
+    "permission_name": "申请加入班级"
+  },
+  {
+    "_id": "manage_roles_permission",
+    "permission_id": "MANAGE_ROLES",
+    "permission_name": "管理角色"
+  },
+  {
+    "_id": "manage_schools_global_permission",
+    "permission_id": "MANAGE_SCHOOLS_GLOBAL",
+    "permission_name": "全局学校管理"
+  },
+  {
+    "_id": "manage_users_global_permission",
+    "permission_id": "MANAGE_USERS_GLOBAL",
+    "permission_name": "全局用户管理"
+  }
 ]
