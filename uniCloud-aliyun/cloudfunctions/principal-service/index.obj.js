@@ -64,22 +64,54 @@ module.exports = {
 	},
 
 	async assignTeachersToClass({ classId, teacherIds }) {
-		return await db.collection('classes').doc(classId).update({
-			teacher_ids: teacherIds
-		});
+		const classDoc = await db.collection('classes').doc(classId).get();
+		if (!classDoc.data || classDoc.data.length === 0) {
+			throw new Error('班级不存在');
+		}
+		const oldTeacherIds = classDoc.data[0].teacher_ids || [];
+
+		const oldTeacherIdsSet = new Set(oldTeacherIds);
+		const newTeacherIdsSet = new Set(teacherIds);
+		const teachersToAdd = teacherIds.filter(id => !oldTeacherIdsSet.has(id));
+		const teachersToRemove = oldTeacherIds.filter(id => !newTeacherIdsSet.has(id));
+
+		const transaction = await db.startTransaction();
+		try {
+			await transaction.collection('classes').doc(classId).update({
+				teacher_ids: teacherIds
+			});
+
+			// **FIX: 改为循环单条更新，避免本地调试环境的批量更新兼容性问题**
+			for (const teacherId of teachersToAdd) {
+				await transaction.collection('uni-id-users').doc(teacherId).update({
+					class_ids: dbCmd.addToSet(classId)
+				});
+			}
+			
+			for (const teacherId of teachersToRemove) {
+				await transaction.collection('uni-id-users').doc(teacherId).update({
+					class_ids: dbCmd.pull(classId)
+				});
+			}
+			
+			await transaction.commit();
+			return { success: true, errMsg: '分配成功' };
+
+		} catch (e) {
+			await transaction.rollback();
+			throw e;
+		}
 	},
 
 	// --- 人员管理功能 ---
 	async getSchoolPersonnelAndClasses() {
 		const schoolId = this.currentUser.school_ids;
 		
-		// 操作 uni-id-users 表，字段为 school_ids，是正确的
 		const usersRes = await db.collection('uni-id-users').where({
 			school_ids: schoolId,
 			role: dbCmd.in(['student', 'teacher'])
 		}).field({ nickname: 1, role: 1, class_ids: 1 }).get();
 		
-		// 操作 classes 表，字段为 school_id，是正确的
 		const classesRes = await db.collection('classes').where({
 			school_id: schoolId
 		}).field({ name: 1 }).get();
@@ -91,7 +123,6 @@ module.exports = {
 	},
 	
 	async assignClassesToUser({ userId, classIds }) {
-		// 操作 uni-id-users 表，字段为 school_ids，是正确的
 		const user = await db.collection('uni-id-users').doc(userId).field({ school_ids: 1 }).get();
 		if (!user.data[0] || user.data[0].school_ids !== this.currentUser.school_ids) {
 			throw new Error('无权操作非本校用户');
