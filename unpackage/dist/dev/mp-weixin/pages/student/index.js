@@ -29,7 +29,7 @@ const _sfc_main = {
       common_vendor.index.showToast({ title: "功能待开发", icon: "none" });
     }
     function goMyHomeworkPage() {
-      common_vendor.index.showToast({ title: "功能待开发", icon: "none" });
+      common_vendor.index.navigateTo({ url: "/pages/student/my-homework" });
     }
     function logout() {
       userStore.logout();

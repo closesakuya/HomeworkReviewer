@@ -28,7 +28,9 @@ function goProfile() {
 function goMyClasses() { uni.navigateTo({ url: '/pages/student/my-classes' }); }
 function goJoinClass() { uni.navigateTo({ url: '/pages/student/join-class' }); }
 function goSubmitPage() { uni.showToast({title: '功能待开发', icon: 'none'}); }
-function goMyHomeworkPage() { uni.showToast({title: '功能待开发', icon: 'none'}); }
+function goMyHomeworkPage() { 
+	uni.navigateTo({ url: '/pages/student/my-homework' });
+}
 function logout() {
 	userStore.logout();
 	uni.reLaunch({ url: '/pages/login' });

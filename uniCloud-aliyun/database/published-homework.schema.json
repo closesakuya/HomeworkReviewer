@@ -1,0 +1,42 @@
+// 文件路径: uniCloud/database/published-homework.schema.json
+{
+	"bsonType": "object",
+	"required": ["template_id", "class_id", "teacher_id", "deadline"],
+	"permission": {
+		"read": "'READ_HOMEWORK' in auth.permission", // 学生和老师都可以读
+		"create": "'PUBLISH_HOMEWORK' in auth.permission", // 只有老师能创建
+		"update": "doc.teacher_id == auth.uid",
+		"delete": "doc.teacher_id == auth.uid"
+	},
+	"properties": {
+		"_id": { "description": "ID，系统自动生成" },
+		"template_id": {
+			"bsonType": "string",
+			"description": "关联的作业模板ID",
+			"foreignKey": "homework-templates._id"
+		},
+		"class_id": {
+			"bsonType": "string",
+			"description": "发布的班级ID",
+			"foreignKey": "classes._id"
+		},
+		"teacher_id": {
+			"bsonType": "string",
+			"description": "发布作业的教师ID",
+			"foreignKey": "uni-id-users._id"
+		},
+		"school_ids": {
+			"bsonType": "string",
+			"description": "作业所属学校ID"
+		},
+		"deadline": {
+			"bsonType": "timestamp",
+			"description": "作业提交截止日期"
+		},
+		"publish_date": {
+			"bsonType": "timestamp",
+			"description": "发布时间",
+			"forceDefaultValue": { "$env": "now" }
+		}
+	}
+}

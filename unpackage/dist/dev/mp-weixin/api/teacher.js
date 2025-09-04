@@ -7,10 +7,16 @@ const addStudentToClassApi = (params) => teacherService.addStudentToClass(params
 const removeStudentFromClassApi = (params) => teacherService.removeStudentFromClass(params);
 const getJoinRequestsApi = () => teacherService.getJoinRequests();
 const handleJoinRequestApi = (params) => teacherService.handleJoinRequest(params);
+const createHomeworkTemplateApi = (homeworkData) => teacherService.createHomeworkTemplate(homeworkData);
+const getHomeworkTemplatesApi = () => teacherService.getHomeworkTemplates();
+const publishHomeworkApi = (params) => teacherService.publishHomework(params);
 exports.addStudentToClassApi = addStudentToClassApi;
+exports.createHomeworkTemplateApi = createHomeworkTemplateApi;
+exports.getHomeworkTemplatesApi = getHomeworkTemplatesApi;
 exports.getJoinRequestsApi = getJoinRequestsApi;
 exports.getMyClassesWithStudentsApi = getMyClassesWithStudentsApi;
 exports.getSchoolStudentsApi = getSchoolStudentsApi;
 exports.handleJoinRequestApi = handleJoinRequestApi;
+exports.publishHomeworkApi = publishHomeworkApi;
 exports.removeStudentFromClassApi = removeStudentFromClassApi;
 //# sourceMappingURL=../../.sourcemap/mp-weixin/api/teacher.js.map

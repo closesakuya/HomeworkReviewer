@@ -40,5 +40,22 @@
 			"smsKey": "your-sms-key",
 			"smsSecret": "your-sms-secret"
 		}
+	},
+	"cloudStorage": {
+		"rules": [
+			{
+				"path": "/homework/*",
+				"permission": {
+					"read": true, 
+
+					"upload": "auth.uid != null",
+					
+
+					"delete": "doc.user_id == auth.uid" 
+				},
+				
+				"maxSize": 10485760 
+			}
+		]
 	}
 }

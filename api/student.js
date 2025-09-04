@@ -18,3 +18,10 @@ export const applyToJoinClassApi = (classId) => studentService.applyToJoinClass(
  */
 export const getMyClassesApi = () => studentService.getMyClasses();
 
+
+// [新增] 获取我的作业列表 API
+export const getMyHomeworksApi = () => studentService.getMyHomeworks();
+
+// [新增] 作业提交相关 API
+export const getHomeworkDetailsApi = (id) => studentService.getHomeworkDetails(id);
+export const submitHomeworkApi = (data) => studentService.submitHomework(data);

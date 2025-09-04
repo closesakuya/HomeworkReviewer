@@ -19,3 +19,9 @@ export const getJoinRequestsApi = () => teacherService.getJoinRequests();
 // 处理入班申请
 export const handleJoinRequestApi = (params) => teacherService.handleJoinRequest(params);
 
+// [新增] 作业管理 API
+export const createHomeworkTemplateApi = (homeworkData) => teacherService.createHomeworkTemplate(homeworkData);
+
+// [新增] 作业模板和发布 API
+export const getHomeworkTemplatesApi = () => teacherService.getHomeworkTemplates();
+export const publishHomeworkApi = (params) => teacherService.publishHomework(params);

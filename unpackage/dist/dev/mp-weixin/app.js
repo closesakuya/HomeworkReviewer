@@ -8,8 +8,12 @@ if (!Math) {
   "./pages/student/index.js";
   "./pages/student/join-class.js";
   "./pages/student/my-classes.js";
+  "./pages/student/my-homework.js";
+  "./pages/student/submit-homework.js";
   "./pages/teacher/index.js";
   "./pages/teacher/manage-my-classes.js";
+  "./pages/teacher/create-homework.js";
+  "./pages/teacher/manage-homework.js";
   "./pages/teacher/handle-requests.js";
   "./pages/principal/index.js";
   "./pages/principal/manage-classes.js";

@@ -104,5 +104,98 @@ module.exports = {
 		} else {
 			return await db.collection('join-requests').doc(requestId).update({ status: 'rejected' });
 		}
+	},
+	/**
+	 * [新增] 创建作业模板
+	 * @param {object} homeworkData - 作业数据对象
+	 * @param {string} homeworkData.title - 作业题目
+	 * @param {string} homeworkData.content - 作业内容
+	 * @param {array} homeworkData.contentBlocks - 作业提交项数组
+	 */
+	async createHomeworkTemplate(homeworkData) {
+		const { title, content, contentBlocks } = homeworkData;
+
+		// 1. 数据校验
+		if (!title || !title.trim()) {
+			throw new Error('作业题目不能为空');
+		}
+		if (!contentBlocks || !Array.isArray(contentBlocks) || contentBlocks.length === 0) {
+			throw new Error('请至少设置一个作业提交项');
+		}
+		for (const block of contentBlocks) {
+			if (!block.type || !block.label) {
+				throw new Error('每个提交项都必须包含类型和提示文字');
+			}
+		}
+
+		// 2. 准备写入数据库的数据
+		const dataToCreate = {
+			teacher_id: this.currentUser.uid,
+			school_ids: this.currentUser.school_ids,
+			title: title.trim(),
+			content: content ? content.trim() : '',
+			content_blocks: contentBlocks,
+			status: 'draft',
+			// [关键修复] 手动添加创建时间，使用服务器当前时间
+			create_date: new Date()
+		};
+
+		// 3. 执行数据库插入操作
+		const res = await db.collection('homework-templates').add(dataToCreate);
+		
+		// 4. 返回成功信息
+		return {
+			errCode: 0,
+			errMsg: '作业创建成功',
+			id: res.id
+		};
+	},
+
+	/**
+	 * [新增] 获取该教师创建的所有作业模板
+	 */
+	async getHomeworkTemplates() {
+		const res = await db.collection('homework-templates').where({
+			teacher_id: this.currentUser.uid
+		})
+		.orderBy('create_date', 'desc')
+		// [关键修复] 确保查询并返回 create_date 字段
+		.field({ title: 1, create_date: 1 }) 
+		.get();
+		
+		return res.data;
+	},
+
+	/**
+	 * [新增] 发布一个作业模板到指定班级
+	 * @param {object} params - 参数对象
+	 * @param {string} params.templateId - 作业模板ID
+	 * @param {string} params.classId - 班级ID
+	 * @param {number} params.deadline - 截止日期的 Unix 时间戳 (毫秒)
+	 */
+	async publishHomework({ templateId, classId, deadline }) {
+		if (!templateId || !classId || !deadline) {
+			throw new Error('参数不完整，无法发布作业');
+		}
+		const template = await db.collection('homework-templates').doc(templateId).get();
+		if (!template.data[0] || template.data[0].teacher_id !== this.currentUser.uid) {
+			throw new Error('无效的作业模板');
+		}
+		const existing = await db.collection('published-homework').where({
+			template_id: templateId,
+			class_id: classId
+		}).count();
+		if (existing.total > 0) {
+			throw new Error('该作业已发布给此班级，请勿重复操作');
+		}
+		await db.collection('published-homework').add({
+			template_id: templateId,
+			class_id: classId,
+			teacher_id: this.currentUser.uid,
+			school_ids: this.currentUser.school_ids,
+			deadline: new Date(deadline),
+		});
+		return { errCode: 0, errMsg: '作业发布成功' };
 	}
+
 }

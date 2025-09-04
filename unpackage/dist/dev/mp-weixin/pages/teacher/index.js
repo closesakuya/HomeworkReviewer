@@ -18,6 +18,12 @@ const _sfc_main = {
     function goProfile() {
       common_vendor.index.navigateTo({ url: "/pages/common/user-profile/index" });
     }
+    function goCreateHomework() {
+      common_vendor.index.navigateTo({ url: "/pages/teacher/create-homework" });
+    }
+    function goManageHomework() {
+      common_vendor.index.navigateTo({ url: "/pages/teacher/manage-homework" });
+    }
     function goManageMyClasses() {
       common_vendor.index.navigateTo({ url: "/pages/teacher/manage-my-classes" });
     }
@@ -41,28 +47,42 @@ const _sfc_main = {
           showArrow: true,
           clickable: true
         }),
-        e: common_vendor.o(goManageMyClasses),
+        e: common_vendor.o(goCreateHomework),
         f: common_vendor.p({
+          title: "创建作业",
+          note: "设计新的作业模板",
+          showArrow: true,
+          clickable: true
+        }),
+        g: common_vendor.o(goManageHomework),
+        h: common_vendor.p({
+          title: "作业管理",
+          note: "发布和查看作业",
+          showArrow: true,
+          clickable: true
+        }),
+        i: common_vendor.o(goManageMyClasses),
+        j: common_vendor.p({
           title: "我的班级管理",
           note: "管理班级内的学生",
           showArrow: true,
           clickable: true
         }),
-        g: common_vendor.o(goHandleRequests),
-        h: common_vendor.p({
+        k: common_vendor.o(goHandleRequests),
+        l: common_vendor.p({
           title: "学生申请处理",
           note: "处理学生的入班申请",
           showArrow: true,
           clickable: true
         }),
-        i: common_vendor.o(goEvaluatePage),
-        j: common_vendor.p({
+        m: common_vendor.o(goEvaluatePage),
+        n: common_vendor.p({
           title: "评价作业",
           note: "评价学生提交的作业",
           showArrow: true,
           clickable: true
         }),
-        k: common_vendor.o(logout)
+        o: common_vendor.o(logout)
       };
     };
   }

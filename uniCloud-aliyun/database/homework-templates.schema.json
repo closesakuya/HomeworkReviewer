@@ -1,0 +1,67 @@
+// 文件路径: uniCloud/database/homework-templates.schema.json
+{
+	"bsonType": "object",
+	"required": ["teacher_id", "title", "content_blocks"],
+	"permission": {
+		"read": "doc.teacher_id == auth.uid",
+		"create": "'CREATE_HOMEWORK' in auth.permission", // 我们稍后会定义这个权限
+		"update": "doc.teacher_id == auth.uid",
+		"delete": "doc.teacher_id == auth.uid"
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"teacher_id": {
+			"bsonType": "string",
+			"description": "创建该作业的教师ID",
+			"foreignKey": "uni-id-users._id"
+		},
+		"school_ids": {
+			"bsonType": "string",
+			"description": "作业所属学校ID",
+			"foreignKey": "schools._id"
+		},
+		"title": {
+			"bsonType": "string",
+			"title": "作业题目",
+			"description": "作业的核心题目，必填"
+		},
+		"content": {
+			"bsonType": "string",
+			"title": "作业内容",
+			"description": "对作业的详细文字描述，选填"
+		},
+		"content_blocks": {
+			"bsonType": "array",
+			"title": "作业提交项",
+			"description": "定义学生需要提交的内容项，每一项都是一个对象",
+			"items": {
+				"bsonType": "object",
+				"required": ["type", "label"],
+				"properties": {
+					"type": {
+						"bsonType": "string",
+						"description": "提交类型 (image, text, video, audio)"
+					},
+					"label": {
+						"bsonType": "string",
+						"description": "该提交项的提示文字，如 '请朗读课文'"
+					}
+				}
+			}
+		},
+		"status": {
+			"bsonType": "string",
+			"description": "作业状态 (draft: 草稿, published: 已发布)",
+			"defaultValue": "draft"
+		},
+		"create_date": {
+			"bsonType": "timestamp",
+			"description": "创建时间",
+			"forceDefaultValue": {
+				"$env": "now"
+			}
+		}
+	}
+}

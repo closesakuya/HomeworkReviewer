@@ -15,10 +15,22 @@
 		"path": "pages/student/my-classes", "style": { "navigationBarTitleText": "我的班级" }
 	}, 
 	{
+		"path": "pages/student/my-homework", "style": { "navigationBarTitleText": "我的作业" }
+	},
+	{
+		"path": "pages/student/submit-homework", "style": { "navigationBarTitleText": "提交作业" }
+	},
+	{
 		"path": "pages/teacher/index", "style": { "navigationBarTitleText": "教师中心" }
 	}, 
 	{
 		"path": "pages/teacher/manage-my-classes", "style": { "navigationBarTitleText": "班级管理" }
+	}, 
+	{
+		"path": "pages/teacher/create-homework", "style": { "navigationBarTitleText": "创建作业" }
+	},
+	{
+		"path": "pages/teacher/manage-homework", "style": { "navigationBarTitleText": "作业管理" }
 	},
 	{
 		"path": "pages/teacher/handle-requests", "style": { "navigationBarTitleText": "申请处理" }

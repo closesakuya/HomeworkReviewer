@@ -7362,7 +7362,7 @@ function isConsoleWritable() {
 function initRuntimeSocketService() {
   const hosts = "172.29.144.1,192.168.154.1,192.168.221.1,192.168.0.102,127.0.0.1";
   const port = "8090";
-  const id = "mp-weixin_xXEtNK";
+  const id = "mp-weixin_rN5W46";
   const lazy = typeof swan !== "undefined";
   let restoreError = lazy ? () => {
   } : initOnError();
@@ -8340,6 +8340,18 @@ const pages = [
     }
   },
   {
+    path: "pages/student/my-homework",
+    style: {
+      navigationBarTitleText: "我的作业"
+    }
+  },
+  {
+    path: "pages/student/submit-homework",
+    style: {
+      navigationBarTitleText: "提交作业"
+    }
+  },
+  {
     path: "pages/teacher/index",
     style: {
       navigationBarTitleText: "教师中心"
@@ -8349,6 +8361,18 @@ const pages = [
     path: "pages/teacher/manage-my-classes",
     style: {
       navigationBarTitleText: "班级管理"
+    }
+  },
+  {
+    path: "pages/teacher/create-homework",
+    style: {
+      navigationBarTitleText: "创建作业"
+    }
+  },
+  {
+    path: "pages/teacher/manage-homework",
+    style: {
+      navigationBarTitleText: "作业管理"
     }
   },
   {
@@ -8719,7 +8743,7 @@ class S {
 function T(e2) {
   return e2 && "string" == typeof e2 ? JSON.parse(e2) : e2;
 }
-const b = true, E = "mp-weixin", A = T(define_process_env_UNI_SECURE_NETWORK_CONFIG_default), P = E, C = T('{"address":["127.0.0.1","172.29.144.1","192.168.154.1","192.168.221.1","192.168.0.102"],"servePort":7000,"debugPort":9000,"initialLaunchType":"local","skipFiles":["<node_internals>/**","D:/TOOL/TOOL/HBuilderX.4.76.2025082103/HBuilderX/plugins/unicloud/**/*.js"]}'), O = T('[{"provider":"aliyun","spaceName":"homework-01","spaceId":"mp-b63af61a-6e1e-4892-b437-582fca6baf1b","clientSecret":"SbsxbaHVAp4HSIkpCwsulA==","endpoint":"https://api.next.bspapp.com"}]') || [];
+const b = true, E = "mp-weixin", A = T(define_process_env_UNI_SECURE_NETWORK_CONFIG_default), P = E, C = T('{"address":["127.0.0.1","172.29.144.1","192.168.154.1","192.168.221.1","192.168.0.102"],"servePort":7000,"debugPort":9000,"initialLaunchType":"remote","skipFiles":["<node_internals>/**","D:/TOOL/TOOL/HBuilderX.4.76.2025082103/HBuilderX/plugins/unicloud/**/*.js"]}'), O = T('[{"provider":"aliyun","spaceName":"homework-01","spaceId":"mp-b63af61a-6e1e-4892-b437-582fca6baf1b","clientSecret":"SbsxbaHVAp4HSIkpCwsulA==","endpoint":"https://api.next.bspapp.com"}]') || [];
 let N = "";
 try {
   N = "__UNI__729EB59";

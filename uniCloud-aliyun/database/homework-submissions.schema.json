@@ -1,0 +1,50 @@
+// 文件路径: uniCloud/database/homework-submissions.schema.json
+{
+	"bsonType": "object",
+	"required": ["published_homework_id", "student_id", "submitted_content"],
+	"permission": {
+		"read": "doc.student_id == auth.uid || 'EVALUATE_HOMEWORK' in auth.permission",
+		"create": "'SUBMIT_HOMEWORK' in auth.permission",
+		"update": "doc.student_id == auth.uid || 'EVALUATE_HOMEWORK' in auth.permission",
+		"delete": false
+	},
+	"properties": {
+		"_id": { "description": "ID，系统自动生成" },
+		"published_homework_id": {
+			"bsonType": "string",
+			"description": "关联的已发布作业ID",
+			"foreignKey": "published-homework._id"
+		},
+		"student_id": {
+			"bsonType": "string",
+			"description": "提交作业的学生ID",
+			"foreignKey": "uni-id-users._id"
+		},
+		"submitted_content": {
+			"bsonType": "array",
+			"description": "学生提交的具体内容，与模板的 content_blocks 对应",
+			"items": {
+				"bsonType": "object",
+				"properties": {
+					"type": { "bsonType": "string" },
+					"label": { "bsonType": "string" },
+					"value": { "bsonType": "string", "description": "提交的内容，如文字、图片/音视频URL" }
+				}
+			}
+		},
+		"status": {
+			"bsonType": "string",
+			"description": "提交状态 (submitted: 已提交, evaluated: 已评价)",
+			"defaultValue": "submitted"
+		},
+		"evaluation": {
+			"bsonType": "string",
+			"description": "教师的评语"
+		},
+		"submit_date": {
+			"bsonType": "timestamp",
+			"description": "提交时间",
+			"forceDefaultValue": { "$env": "now" }
+		}
+	}
+}
