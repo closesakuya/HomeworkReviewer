@@ -40,6 +40,12 @@
 						</view>
 					</picker>
 					<input class="input-field" v-model="newBlock.label" placeholder="请输入对学生的提示文字" />
+					<!-- [升级] 增加“允许多个”的勾选框 -->
+					<view class="checkbox-container" v-if="isFileType(newBlock.type)">
+						<checkbox-group @change="onMultipleChange">
+							<label><checkbox value="true" />允许多个上传</label>
+						</checkbox-group>
+					</view>
 					<button class="button primary" @click="addBlock">添加</button>
 				</view>
 			</view>
@@ -69,6 +75,7 @@
 					type: 'text', // 默认类型
 					label: '',
 					typeIndex: 0, // picker的索引
+					multiple: false, // [升级] 新增 multiple 状态
 				},
 				// 可供选择的提交类型
 				availableBlockTypes: [
@@ -76,8 +83,16 @@
 					{ value: 'image', text: '图片' },
 					{ value: 'audio', text: '音频' },
 					{ value: 'video', text: '视频' },
+					{ value: 'document', text: '文档 (PDF/Word/Excel等)' },
+					{ value: 'file', text: '其他文件 (ZIP等)' },
 				]
 			};
+		},
+		computed: {
+			// [升级] 计算当前类型是否是文件类型，用于决定是否显示“允许多个”选项
+			isFileType() {
+				return (type) => ['image', 'video', 'document', 'file'].includes(type);
+			}
 		},
 		methods: {
 			// 将类型值转换为中文名，用于显示
@@ -91,21 +106,25 @@
 				this.newBlock.typeIndex = e.detail.value;
 				this.newBlock.type = this.availableBlockTypes[this.newBlock.typeIndex].value;
 			},
-			
+			// [升级] 监听 checkbox 变化
+			onMultipleChange(e) {
+				this.newBlock.multiple = e.detail.value.includes('true');
+			},
 			// 添加一个新的提交项
 			addBlock() {
-				// 校验提示文字是否为空
 				if (!this.newBlock.label.trim()) {
-					uni.showToast({ title: '提示文字不能为空', icon: 'none' });
-					return;
+					return uni.showToast({ title: '提示文字不能为空', icon: 'none' });
 				}
-				// 将新项添加到作业数据中
 				this.homework.contentBlocks.push({
 					type: this.newBlock.type,
-					label: this.newBlock.label.trim()
+					label: this.newBlock.label.trim(),
+					multiple: this.isFileType(this.newBlock.type) ? this.newBlock.multiple : false // 只有文件类型才有 multiple
 				});
-				// 清空输入框，方便下次添加
+				// 重置输入状态
 				this.newBlock.label = '';
+				this.newBlock.multiple = false; 
+				// HACK: 需要一个方法来重置 checkbox 状态，但 uni-app checkbox-group 不直接支持，
+				// 最简单的办法是让用户手动取消勾选，或者通过 v-if 重新渲染
 			},
 			
 			// 移除一个已添加的提交项

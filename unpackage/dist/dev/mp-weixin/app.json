@@ -7,6 +7,8 @@
     "pages/student/my-classes",
     "pages/student/my-homework",
     "pages/student/submit-homework",
+    "pages/student/view-submission",
+    "pages/student/view-evaluation",
     "pages/teacher/index",
     "pages/teacher/manage-my-classes",
     "pages/teacher/create-homework",

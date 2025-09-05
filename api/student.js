@@ -20,8 +20,11 @@ export const getMyClassesApi = () => studentService.getMyClasses();
 
 
 // [新增] 获取我的作业列表 API
-export const getMyHomeworksApi = () => studentService.getMyHomeworks();
+export const getMyHomeworksApi = (params) => studentService.getMyHomeworks(params);
 
 // [新增] 作业提交相关 API
 export const getHomeworkDetailsApi = (id) => studentService.getHomeworkDetails(id);
 export const submitHomeworkApi = (data) => studentService.submitHomework(data);
+
+// [新增] 获取作业提交详情的 API
+export const getSubmissionDetailsApi = (id) => studentService.getSubmissionDetails(id);

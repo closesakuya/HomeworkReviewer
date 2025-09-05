@@ -10,6 +10,8 @@ if (!Math) {
   "./pages/student/my-classes.js";
   "./pages/student/my-homework.js";
   "./pages/student/submit-homework.js";
+  "./pages/student/view-submission.js";
+  "./pages/student/view-evaluation.js";
   "./pages/teacher/index.js";
   "./pages/teacher/manage-my-classes.js";
   "./pages/teacher/create-homework.js";

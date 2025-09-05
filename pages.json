@@ -21,6 +21,12 @@
 		"path": "pages/student/submit-homework", "style": { "navigationBarTitleText": "提交作业" }
 	},
 	{
+		"path": "pages/student/view-submission", "style": { "navigationBarTitleText": "作业详情" }
+	},
+	{
+		"path": "pages/student/view-evaluation", "style": { "navigationBarTitleText": "查看评语" }
+	},
+	{
 		"path": "pages/teacher/index", "style": { "navigationBarTitleText": "教师中心" }
 	}, 
 	{

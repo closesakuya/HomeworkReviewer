@@ -115,13 +115,14 @@ module.exports = {
 	async createHomeworkTemplate(homeworkData) {
 		const { title, content, contentBlocks } = homeworkData;
 
-		// 1. 数据校验
+		// 1. 数据校验 (不变)
 		if (!title || !title.trim()) {
 			throw new Error('作业题目不能为空');
 		}
 		if (!contentBlocks || !Array.isArray(contentBlocks) || contentBlocks.length === 0) {
 			throw new Error('请至少设置一个作业提交项');
 		}
+		// 校验每个提交项的基础格式
 		for (const block of contentBlocks) {
 			if (!block.type || !block.label) {
 				throw new Error('每个提交项都必须包含类型和提示文字');
@@ -134,16 +135,24 @@ module.exports = {
 			school_ids: this.currentUser.school_ids,
 			title: title.trim(),
 			content: content ? content.trim() : '',
-			content_blocks: contentBlocks,
+			// [关键修复] 使用 map 遍历前端传来的数组，确保每个对象都包含正确的 multiple 字段
+			content_blocks: contentBlocks.map(block => {
+				return {
+					type: block.type,
+					label: block.label,
+					// 核心逻辑：检查前端传来的 block 对象中是否有 multiple 属性，
+					// 如果有，则使用它的值 (true or false); 
+					// 如果没有 (例如 checkbox 未勾选时)，则明确地设置为 false。
+					multiple: block.multiple || false 
+				};
+			}),
 			status: 'draft',
-			// [关键修复] 手动添加创建时间，使用服务器当前时间
 			create_date: new Date()
 		};
 
 		// 3. 执行数据库插入操作
 		const res = await db.collection('homework-templates').add(dataToCreate);
 		
-		// 4. 返回成功信息
 		return {
 			errCode: 0,
 			errMsg: '作业创建成功',

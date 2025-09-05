@@ -7362,7 +7362,7 @@ function isConsoleWritable() {
 function initRuntimeSocketService() {
   const hosts = "172.29.144.1,192.168.154.1,192.168.221.1,192.168.0.102,127.0.0.1";
   const port = "8090";
-  const id = "mp-weixin_rN5W46";
+  const id = "mp-weixin_lPNeUt";
   const lazy = typeof swan !== "undefined";
   let restoreError = lazy ? () => {
   } : initOnError();
@@ -8349,6 +8349,18 @@ const pages = [
     path: "pages/student/submit-homework",
     style: {
       navigationBarTitleText: "提交作业"
+    }
+  },
+  {
+    path: "pages/student/view-submission",
+    style: {
+      navigationBarTitleText: "作业详情"
+    }
+  },
+  {
+    path: "pages/student/view-evaluation",
+    style: {
+      navigationBarTitleText: "查看评语"
     }
   },
   {
@@ -12062,4 +12074,5 @@ exports.sr = sr;
 exports.t = t$1;
 exports.tr = tr;
 exports.unref = unref;
+exports.wx$1 = wx$1;
 //# sourceMappingURL=../../.sourcemap/mp-weixin/common/vendor.js.map

@@ -1,0 +1,17 @@
+{
+    "cloudfunction-config": {
+        "functions": [
+            {
+                "name": "cleanup-expired-files",
+                "triggers": [
+                    {
+                        "name": "dailyCleanupTrigger",
+                        "type": "timer",
+                        // cron 表达式，表示每天凌晨4点执行一次
+                        "config": "0 0 4 * * * *"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,37 @@
+// 文件路径: uniCloud/database/temporary-files.schema.json
+// 功能：记录所有需要被管理的临时文件
+
+{
+	"bsonType": "object",
+	"required": ["file_id", "upload_date", "user_id", "expires_in_days"],
+	"permission": {
+		"read": false, // 此表仅由云函数自己操作，客户端不可读
+		"create": "'REGISTER_TEMP_FILE' in auth.permission", // 只有特定权限能创建
+		"update": false,
+		"delete": false
+	},
+	"properties": {
+		"_id": { "description": "ID，系统自动生成" },
+		"file_id": {
+			"bsonType": "string",
+			"description": "文件在云存储中的唯一ID (即文件URL)"
+		},
+		"upload_date": {
+			"bsonType": "timestamp",
+			"description": "文件上传时间"
+		},
+		"user_id": {
+			"bsonType": "string",
+			"description": "上传该文件的用户ID",
+			"foreignKey": "uni-id-users._id"
+		},
+		"expires_in_days": {
+			"bsonType": "int",
+			"description": "有效期（天）"
+		},
+		"description": {
+			"bsonType": "string",
+			"description": "文件描述，例如 '作业视频'"
+		}
+	}
+}

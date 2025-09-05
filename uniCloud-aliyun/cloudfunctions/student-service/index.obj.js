@@ -18,29 +18,79 @@ module.exports = {
 		this.currentUser = { uid, role };
 	},
 
-	// getMyClasses 和 getClassesAndStatus 方法保持不变
-	async getMyClasses() {
-		// [优化] 在方法内部获取最新的用户信息
-		const userRes = await db.collection('uni-id-users').doc(this.currentUser.uid).field({ class_ids: 1 }).get();
-		const classIds = userRes.data[0].class_ids;
+	/**
+	 * [功能升级] 获取学生的作业列表，支持筛选和排序
+	 * @param {object} params - 筛选参数
+	 * @param {string} params.status - 作业状态 ('pending', 'submitted', 'evaluated')
+	 * @param {string} params.classId - 班级ID
+	 * @param {string} params.orderBy - 排序字段 ('deadline_asc', 'deadline_desc')
+	 */
+	async getMyHomeworks(params = {}) {
+		const { status, classId, orderBy } = params;
 
-		if (!classIds || classIds.length === 0) {
-			return [];
+		// 1. 获取学生班级
+		const userRes = await db.collection('uni-id-users').doc(this.currentUser.uid).field({ class_ids: 1 }).get();
+		const studentClassIds = userRes.data[0]?.class_ids;
+
+		if (!studentClassIds || studentClassIds.length === 0) {
+			return { homeworks: [], classes: [] };
 		}
-		const classesRes = await db.collection('classes').where({ _id: dbCmd.in(classIds) }).get();
-		if (!classesRes.data || classesRes.data.length === 0) {
-			return [];
+		
+		// 2. 构建查询和排序
+		const query = { class_id: dbCmd.in(studentClassIds) };
+		if (classId) query.class_id = classId;
+		
+		const order = orderBy === 'deadline_desc' ? { field: 'deadline', type: 'desc' } : { field: 'deadline', type: 'asc' };
+
+		// 3. 查询作业
+		const publishedHomeworkRes = await db.collection('published-homework').where(query).orderBy(order.field, order.type).get();
+		const publishedHomeworks = publishedHomeworkRes.data;
+		
+		// 4. 获取班级列表用于筛选器和名称显示
+		const classesRes = await db.collection('classes').where({ _id: dbCmd.in(studentClassIds) }).field({ name: 1 }).get();
+		const classMap = new Map(classesRes.data.map(item => [item._id, item.name]));
+
+		if (publishedHomeworks.length === 0) {
+			return { homeworks: [], classes: classesRes.data };
 		}
-		const teacherIds = [...new Set(classesRes.data.flatMap(c => c.teacher_ids || []))];
-		let teachersMap = new Map();
-		if (teacherIds.length > 0) {
-			const teachersRes = await db.collection('uni-id-users').where({ _id: dbCmd.in(teacherIds) }).field({ nickname: 1 }).get();
-			teachersMap = new Map(teachersRes.data.map(t => [t._id, t.nickname]));
-		}
-		classesRes.data.forEach(c => {
-			c.teachers_info = (c.teacher_ids || []).map(id => teachersMap.get(id) || '未知教师').join(', ');
+
+		// 5. 并行查询关联数据
+		const [templatesRes, teachersRes, submissionsRes] = await Promise.all([
+			db.collection('homework-templates').where({ _id: dbCmd.in(publishedHomeworks.map(p => p.template_id)) }).field({ title: 1 }).get(),
+			db.collection('uni-id-users').where({ _id: dbCmd.in(publishedHomeworks.map(p => p.teacher_id)) }).field({ nickname: 1 }).get(),
+			db.collection('homework-submissions').where({
+				student_id: this.currentUser.uid,
+				published_homework_id: dbCmd.in(publishedHomeworks.map(p => p._id))
+			}).field({ published_homework_id: 1, status: 1 }).get(),
+		]);
+
+		// 6. 结果转为 Map
+		const templateMap = new Map(templatesRes.data.map(item => [item._id, item.title]));
+		const teacherMap = new Map(teachersRes.data.map(item => [item._id, item.nickname]));
+		const submissionMap = new Map(submissionsRes.data.map(item => [item.published_homework_id, item.status]));
+
+		// 7. [关键修复] 组合数据时，从 classMap 中正确获取并赋值 class_name
+		let result = publishedHomeworks.map(item => {
+			const submissionStatus = submissionMap.get(item._id);
+			return {
+				_id: item._id,
+				title: templateMap.get(item.template_id) || '未知作业',
+				teacher_name: teacherMap.get(item.teacher_id) || '未知教师',
+				class_name: classMap.get(item.class_id) || '未知班级', // <--- 关键修复在此！
+				deadline: item.deadline,
+				class_id: item.class_id,
+				status: submissionStatus || 'pending'
+			};
 		});
-		return classesRes.data;
+		
+		if (status) {
+			result = result.filter(item => item.status === status);
+		}
+		
+		return {
+			homeworks: result,
+			classes: classesRes.data
+		};
 	},
 
 	async getClassesAndStatus() {
@@ -115,74 +165,7 @@ module.exports = {
 			status: 'pending'
 		});
 	},
-	/**
-	 * [新增] 获取学生的作业列表 (包括状态)
-	 */
-	async getMyHomeworks() {
-		// 1. 获取学生所在的班级
-		const userRes = await db.collection('uni-id-users').doc(this.currentUser.uid).field({ class_ids: 1 }).get();
-		const classIds = userRes.data[0].class_ids;
 
-		if (!classIds || classIds.length === 0) {
-			return []; // 如果学生未加入任何班级，则没有作业
-		}
-
-		// 2. 查找所有发布到这些班级的作业
-		const publishedHomeworkRes = await db.collection('published-homework')
-			.where({ class_id: dbCmd.in(classIds) })
-			.orderBy('deadline', 'asc')
-			.get();
-		
-		const publishedHomeworks = publishedHomeworkRes.data;
-		if (publishedHomeworks.length === 0) {
-			return [];
-		}
-
-		// 3. 收集所有需要额外查询的 ID
-		const templateIds = publishedHomeworks.map(item => item.template_id);
-		const teacherIds = publishedHomeworks.map(item => item.teacher_id);
-		const publishedHomeworkIds = publishedHomeworks.map(item => item._id);
-
-		// 4. 并行执行所有后续查询，提高效率
-		const [templatesRes, teachersRes, submissionsRes] = await Promise.all([
-			// 查询作业模板信息
-			db.collection('homework-templates').where({ _id: dbCmd.in(templateIds) }).field({ title: 1 }).get(),
-			// 查询教师信息
-			db.collection('uni-id-users').where({ _id: dbCmd.in(teacherIds) }).field({ nickname: 1 }).get(),
-			// 查询学生自己的提交记录
-			db.collection('homework-submissions').where({
-				student_id: this.currentUser.uid,
-				published_homework_id: dbCmd.in(publishedHomeworkIds)
-			}).field({ published_homework_id: 1, status: 1 }).get()
-		]);
-
-		// 5. 将查询结果转换为 Map, 便于快速查找
-		const templateMap = new Map(templatesRes.data.map(item => [item._id, item.title]));
-		const teacherMap = new Map(teachersRes.data.map(item => [item._id, item.nickname]));
-		const submissionMap = new Map(submissionsRes.data.map(item => [item.published_homework_id, item.status]));
-
-		// 6. 组合最终数据
-		const result = publishedHomeworks.map(item => {
-			const submissionStatus = submissionMap.get(item._id);
-			let status = { text: '待提交', value: 'pending' };
-
-			if (submissionStatus === 'submitted') {
-				status = { text: '已提交', value: 'submitted' };
-			} else if (submissionStatus === 'evaluated') {
-				status = { text: '已评价', value: 'evaluated' };
-			}
-
-			return {
-				_id: item._id,
-				title: templateMap.get(item.template_id) || '作业题目加载失败',
-				teacher_name: teacherMap.get(item.teacher_id) || '未知教师',
-				deadline: item.deadline,
-				status: status
-			};
-		});
-
-		return result;
-	},
 	/**
 	 * [新增] 获取单个已发布作业的详细信息，用于提交页面
 	 * @param {string} publishedHomeworkId - 已发布作业的ID
@@ -226,27 +209,76 @@ module.exports = {
 			throw new Error('提交数据不完整');
 		}
 
-		// 1. 检查是否已经提交过
 		const existingSubmission = await db.collection('homework-submissions').where({
 			student_id: this.currentUser.uid,
 			published_homework_id: publishedHomeworkId
 		}).count();
 		
 		if (existingSubmission.total > 0) {
-			// 在此可以选择是更新提交还是禁止重复提交，此处为禁止
 			throw new Error('您已提交过该作业，请勿重复提交');
 		}
 		
-		// 2. 写入数据库
+		// 后台对数据进行最终校验
+		for (const block of submittedContent) {
+			if (!Array.isArray(block.value)) {
+				throw new Error(`数据格式错误，提交项 [${block.label}] 的值不是数组。`);
+			}
+			// (可选) 可以在此增加更多校验，如文件数量限制等
+		}
+		
 		await db.collection('homework-submissions').add({
 			published_homework_id: publishedHomeworkId,
 			student_id: this.currentUser.uid,
-			submitted_content: submittedContent,
-			status: 'submitted', // 初始状态为“已提交”
+			submitted_content: submittedContent, // value 已经是数组，直接存入
+			status: 'submitted',
 			submit_date: new Date()
 		});
 
 		return { errCode: 0, errMsg: '作业提交成功' };
+	},
+	/**
+	 * [新增] 获取单个作业的提交详情
+	 * @param {string} publishedHomeworkId - 已发布作业的ID
+	 */
+	async getSubmissionDetails(publishedHomeworkId) {
+		if (!publishedHomeworkId) {
+			throw new Error('缺少作业ID');
+		}
+
+		// 1. 查找学生自己的提交记录
+		const submissionRes = await db.collection('homework-submissions').where({
+			student_id: this.currentUser.uid,
+			published_homework_id: publishedHomeworkId
+		}).get();
+		
+		if (!submissionRes.data || submissionRes.data.length === 0) {
+			throw new Error('找不到您的提交记录');
+		}
+		const submission = submissionRes.data[0];
+
+		// 2. 查找关联的已发布作业信息
+		const publishedHomeworkRes = await db.collection('published-homework').doc(publishedHomeworkId).get();
+		if (!publishedHomeworkRes.data || publishedHomeworkRes.data.length === 0) {
+			throw new Error('找不到原始作业信息');
+		}
+		const publishedHomework = publishedHomeworkRes.data[0];
+
+		// 3. 查找关联的作业模板信息
+		const templateRes = await db.collection('homework-templates').doc(publishedHomework.template_id).get();
+		if (!templateRes.data || templateRes.data.length === 0) {
+			throw new Error('找不到作业模板');
+		}
+		const template = templateRes.data[0];
+
+		// 4. 组合并返回所有需要的数据
+		return {
+			_id: submission._id,
+			title: template.title,
+			content: template.content,
+			submitted_content: submission.submitted_content,
+			evaluation: submission.evaluation, // 附带评语，为以后做准备
+			status: submission.status
+		};
 	}
 }
 

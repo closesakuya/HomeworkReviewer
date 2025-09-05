@@ -2,6 +2,7 @@
   "navigationBarTitleText": "学生中心",
   "usingComponents": {
     "uni-list-item": "../../uni_modules/uni-list/components/uni-list-item/uni-list-item",
+    "uni-badge": "../../uni_modules/uni-badge/components/uni-badge/uni-badge",
     "uni-list": "../../uni_modules/uni-list/components/uni-list/uni-list"
   }
 }
